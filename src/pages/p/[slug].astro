@@ -3,16 +3,13 @@ import fetchApi from "../../lib/strapi";
 import type Plan from "../../interfaces/plan";
 import Canvas from "../../components/canvas";
 import Layout from "../../layouts/Layout.astro";
-import PDFBuild from "../../components/pdfBuild";
 
 export async function getStaticPaths() {
   const plans = await fetchApi<Plan[]>({
     endpoint: "plans",
     wrappedByKey: "data",
-    fields: ["areas"],
+    fields: ["areas", "notes"],
   });
-
-  // console.log(plans);
 
   return plans.map((plan) => ({
     params: { slug: plan.attributes.slug },
@@ -37,9 +34,8 @@ const plan = Astro.props;
     }<br />
   </address>
 
-  <!-- ? reorg to pass through all the content -->
   <Canvas svgProp={plan.attributes} client:load />
-  <!-- <PDFBuild plan={plan.attributes} client:load /> -->
 </Layout>
 
 <!-- http://45.79.101.19:1340/api/plans?populate[areas]=true -->
+<!-- http://45.79.101.19:1340/api/plans?populate[areas]=true&[notes]=true -->

@@ -70,7 +70,7 @@ if (plan.notes.data.notes) {
   } */
 
   // this uses a browser API that can't come through
-  doc.addSvgAsImage(plan.svg, 0.5, 2, 7.5, 8, "", false, 0);
+  // doc.addSvgAsImage(plan.svg, 0.5, 2, 7.5, 8, "", false, 0);
 
   let mostRecent = "";
   if (plan.createdAt !== plan.updatedAt) {
