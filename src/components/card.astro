@@ -1,0 +1,23 @@
+---
+import type { cardTypes } from "../interfaces/cardTypes";
+const { ...attributes } = Astro.props;
+---
+
+<a href={`/p/${attributes.slug}`} class="card card__plan">
+  <section class="name">
+    <h3>{attributes.name}</h3>
+    <p class="supra">Name</p>
+  </section>
+  <section class="address">
+    {attributes.address}
+    <p class="supra">Address</p>
+  </section>
+  <section class="jobber">
+    {attributes.jobber}
+    <p class="supra">Jobber</p>
+  </section>
+  <section class="jobbertakedown">
+    {attributes.jobbertakedown}
+    <p class="supra">Jobber Takedown</p>
+  </section>
+</a>

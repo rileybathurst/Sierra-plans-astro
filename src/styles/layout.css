@@ -1,0 +1,88 @@
+/*------------------------------------*/
+/* #LAYOUT */
+/*------------------------------------*/
+
+header {
+  max-width: 40rem;
+  margin-inline: auto;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    list-style: none;
+    padding-inline-start: 0;
+  }
+}
+
+footer {
+  max-width: var(--stork);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+main {
+  max-width: var(--stork);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+canvas {
+  display: none;
+  /* background: peachpuff; */
+}
+
+img {
+  background-color: white;
+  border-radius: 0.25rem;
+  box-shadow: var(--penumbra);
+}
+
+/*------------------------------------*/
+
+.measure {
+  max-width: 40rem;
+}
+
+/* .eyebrow {
+
+} */
+
+.plan__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  border-block-start: 2px solid grey;
+
+  > * {
+    flex: 1 1 20rem;
+  }
+}
+
+/*------------------------------------*/
+
+.plan__logo {
+  max-width: 10rem;
+  /* margin-inline: auto; */
+  mix-blend-mode: multiply;
+}
+
+.dates {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+}
+
+.index-main {
+  position: relative;
+
+  > h3 {
+    position: sticky;
+    top: 0;
+    z-index: 9; /* needs to get over the cards still */
+    padding-block: 0.5rem;
+    border-block-end: 1px solid hsl(var(--honey), 100%, 25%);
+  }
+}

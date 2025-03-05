@@ -1,0 +1,126 @@
+/*------------------*/
+/* LINKS */
+/*------------------*/
+
+a {
+  /* color: hsl(var(--honey), 100%, 30%); */
+  color: hsl(var(--honey), 100%, 25%);
+  transition: var(--cheetah);
+}
+
+a:where(:hover, :focus) {
+  color: hsl(35, 100%, 12.5%);
+}
+
+/*------------------------------------*/
+/* #BUTTONS */
+/*------------------------------------*/
+
+button,
+.button {
+  background-color: hsl(var(--honey), 100%, 75%);
+  border: 1px solid hsl(var(--honey), 100%, 63%);
+  width: max-content;
+  padding-block-start: 0.75rem;
+  padding-block-end: 0.5rem;
+  padding-inline: 1rem;
+  box-shadow: var(--mesosphere);
+  transition: var(--moment);
+  margin-inline-start: 1rem;
+  margin-block-end: 1.5rem;
+  border-radius: var(--border-radius);
+  color: hsl(var(--honey), 100%, 25%);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: hsl(var(--denim), 25%, 12%);
+    border-color: hsl(var(--denim), 12%, 25%);
+    color: hsl(var(--denim), 25%, 63%);
+  }
+
+  a {
+    color: hsl(
+      var(--honey),
+      100%,
+      25%
+    ) !important; /* ! fix this but keep a11y color contrast */
+  }
+}
+
+/* TODO active and focus */
+button:hover,
+.button:hover {
+  color: hsl(var(--honey), 100%, 2.5%);
+  box-shadow: var(--stratosphere);
+  background-color: hsl(var(--honey), 87%, 63%);
+  border-color: hsl(var(--honey), 87%, 50%);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: hsl(var(--denim), 25%, 37%);
+    border-color: hsl(var(--denim), 12%, 50%);
+    color: hsl(var(--denim), 25%, 97.5%);
+  }
+}
+
+/* TODO active and focus */
+button:focus,
+.button:focus {
+  color: hsl(var(--honey), 100%, 2.5%);
+  box-shadow: var(--stratosphere);
+  background-color: hsl(var(--honey), 87%, 63%);
+  border-color: hsl(var(--honey), 87%, 50%);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: hsl(var(--denim), 25%, 37%);
+    border-color: hsl(var(--denim), 12%, 50%);
+    color: hsl(var(--denim), 25%, 97.5%);
+  }
+}
+
+/*------------------*/
+/* HEADER */
+/*------------------*/
+
+header {
+  a {
+    background-color: hsl(var(--honey), 50%, 97.5%);
+    color: var(--black-out);
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: var(--cheetah);
+  }
+
+  a:hover {
+    background-color: hsl(35, 100%, 75%);
+  }
+
+  a:focus {
+    background-color: hsl(var(--honey), 100%, 2.5%);
+  }
+
+  .site-logo {
+    display: inline-block;
+    margin-block-end: 0.5rem;
+  }
+}
+
+/*------------------*/
+/* LISTS */
+/*------------------*/
+
+ul li a {
+  padding: 0.5rem;
+  text-decoration: none;
+}
+
+ul li a:where(:hover, :focus) {
+  background: #ffdc00; /* TODO: */
+  text-decoration: none;
+}
+
+/*------------------------------------*/
+
+.areas-list {
+  a {
+    margin: 0; /* controlled by display */
+  }
+}

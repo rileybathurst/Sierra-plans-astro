@@ -1,0 +1,45 @@
+---
+import fetchApi from "../../lib/strapi";
+import type Plan from "../../interfaces/plan";
+import Canvas from "../../components/canvas";
+import Layout from "../../layouts/Layout.astro";
+import PDFBuild from "../../components/pdfBuild";
+
+export async function getStaticPaths() {
+  const plans = await fetchApi<Plan[]>({
+    endpoint: "plans",
+    wrappedByKey: "data",
+    fields: ["areas"],
+  });
+
+  // console.log(plans);
+
+  return plans.map((plan) => ({
+    params: { slug: plan.attributes.slug },
+    props: plan,
+  }));
+}
+type Props = Plan;
+
+const plan = Astro.props;
+
+// console.log(plan.attributes.svg);
+---
+
+<Layout>
+  <h1>{plan.attributes.name}</h1>
+
+  <address class="capitalize">
+    <span class="kilimanjaro">{plan.attributes.address}</span><br />
+    {
+      plan.attributes?.areas.data[0]?.attributes?.name ??
+        "No area name available"
+    }<br />
+  </address>
+
+  <!-- ? reorg to pass through all the content -->
+  <Canvas svgProp={plan.attributes} client:load />
+  <!-- <PDFBuild plan={plan.attributes} client:load /> -->
+</Layout>
+
+<!-- http://45.79.101.19:1340/api/plans?populate[areas]=true -->
