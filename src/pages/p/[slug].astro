@@ -1,4 +1,6 @@
 ---
+// ! throw an error if I have notes instead of blockNotes
+
 import fetchApi from "../../lib/strapi";
 import type Plan from "../../interfaces/plan";
 import Canvas from "../../components/canvas";
@@ -20,7 +22,10 @@ type Props = Plan;
 
 const plan = Astro.props;
 
-// console.log(plan.attributes.svg);
+import {
+  BlocksRenderer,
+  type BlocksContent,
+} from "@strapi/blocks-react-renderer";
 ---
 
 <Layout>
@@ -32,9 +37,75 @@ const plan = Astro.props;
       plan.attributes?.areas.data[0]?.attributes?.name ??
         "No area name available"
     }<br />
+    {plan.attributes?.areas.data[0]?.attributes?.state}
   </address>
 
-  <Canvas svgProp={plan.attributes} client:load />
+  <hr />
+
+  <div class="deck">
+    <p class="plan-detail">
+      <span class="eyebrow">Jobber install</span>
+      <span class="supra"
+        >{
+          plan.attributes.jobber
+            ? plan.attributes.jobber
+            : '<span class="error">Missing Jobber</span>'
+        }</span
+      >
+    </p>
+    <p class="plan-detail">
+      <span class="eyebrow">Jobber takedown</span>
+      <span class="supra"
+        >{
+          plan.attributes.jobbertakedown
+            ? plan.attributes.jobbertakedown
+            : '<span class="error">Missing Jobber Takedown</span>'
+        }</span
+      >
+    </p>
+  </div>
+
+  <hr />
+
+  {
+    plan.attributes.timerHours ? (
+      <p class="plan-detail">
+        <span class="eyebrow">Timer</span>
+        <span class="supra">{plan.attributes.timerHours} Hours</span>
+      </p>
+    ) : null
+  }
+
+  {
+    plan.attributes.timerFallback ? (
+      <p class="plan-detail">
+        <span class="eyebrow">Timer</span>
+        <span class="supra">{plan.attributes.timerFallback}</span>
+      </p>
+    ) : null
+  }
+
+  <!-- ! needs styling currently list is removed -->
+  {
+    plan.attributes.notes ? (
+      <BlocksRenderer content={plan.attributes.blockNotes} />
+    ) : (
+      <p>No Notes</p>
+    )
+  }
+
+  <Canvas planAttributes={plan.attributes} client:load />
+
+  <div class="deck">
+    <p class="plan-detail">
+      <span class="eyebrow">Created at</span>
+      <span class="supra">{plan.attributes.createdAt}</span>
+    </p>
+    <p class="plan-detail">
+      <span class="eyebrow">Updated at</span>
+      <span class="supra"> {plan.attributes.updatedAt}</span>
+    </p>
+  </div>
 </Layout>
 
 <!-- http://45.79.101.19:1340/api/plans?populate[areas]=true -->

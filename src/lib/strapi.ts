@@ -46,13 +46,38 @@ export default async function fetchApi<T>({
 
   // console.log(passedFields);
 
+  // the questions mark is always needed but its fine to run it straight into an ampersand
+  // http://45.79.101.19:1340/api/plans?&pagination[pageSize]=100
+
+  // 100 is max page size
   const url = new URL(
-    `${import.meta.env.STRAPI_URL}/api/${endpoint}${
-      fields ? `?${passedFields}` : ""
-    }`
+    `${import.meta.env.STRAPI_URL}/api/${endpoint}?${
+      fields ? `${passedFields}` : ""
+    }&pagination[pageSize]=100&pagination[page]=100`
   );
 
-  // console.log(url);
+  let allData: T[] = [];
+  let page = 1;
+  let hasMore = true;
+
+  while (hasMore) {
+    url.searchParams.set("pagination[page]", page.toString());
+    const res = await fetch(url.toString());
+    const pageData = await res.json();
+
+    if (wrappedByKey) {
+      allData = allData.concat(pageData[wrappedByKey]);
+    } else {
+      allData = allData.concat(pageData);
+    }
+
+    hasMore =
+      pageData.meta.pagination.page < pageData.meta.pagination.pageCount;
+    page++;
+  }
+
+  // browser check
+  // console.log(url.href);
 
   if (query) {
     for (const [key, value] of Object.entries(query)) {
@@ -60,15 +85,15 @@ export default async function fetchApi<T>({
     }
   }
   const res = await fetch(url.toString());
-  let data = await res.json();
+  let allDataJson = await res.json();
 
   if (wrappedByKey) {
-    data = data[wrappedByKey];
+    allDataJson = allDataJson[wrappedByKey];
   }
 
   if (wrappedByList) {
-    data = data[0];
+    allDataJson = allDataJson[0];
   }
 
-  return data as T;
+  return allDataJson as T;
 }

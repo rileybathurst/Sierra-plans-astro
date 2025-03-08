@@ -3,7 +3,29 @@ import { Canvg } from 'canvg';
 // import { PDFBuild } from './pdfBuild';
 import { jsPDF } from "jspdf";
 
-export default function Canvas({ svgProp }: string) {
+type PlanAttributes = {
+  name: string;
+  address: string;
+  zip: string;
+  jobber: number;
+  jobbertakedown: number;
+  timerHours: number;
+  timerFallback: string;
+  svg: string;
+  areas: {
+    data: {
+      name: string;
+      state: string;
+    }[];
+  };
+  createdAt: string;
+  updatedAt: string;
+  slug: string;
+  mostRecent: string;
+};
+
+
+export default function Canvas({ planAttributes }: PlanAttributes) {
 
   const [dataState, setDataState] = useState(' ');
   // console.log(dataState); // nope
@@ -17,7 +39,7 @@ export default function Canvas({ svgProp }: string) {
     const ctx = canvas.current?.getContext("2d");
     if (!ctx) return;
     // const v = Canvg.fromString(ctx, svgTest);
-    const v = Canvg.fromString(ctx, svgProp.svg);
+    const v = Canvg.fromString(ctx, planAttributes.svg);
     v.start();
 
     // base64 encode the canvas image
@@ -32,48 +54,48 @@ export default function Canvas({ svgProp }: string) {
 
     doc.setLineWidth(0.01);
 
-    doc.text(svgProp.name, 0.5, 0.75);
+    doc.text(planAttributes.name, 0.5, 0.75);
 
     doc.setFontSize(12);
 
     doc.text(
-      `${svgProp.address}, ${svgProp.areas.data[0]?.name}, ${svgProp.areas.data[0]?.state === "california" ? "CA" : "NV"
-      }${svgProp.zip ? `. ${svgProp.zip}` : ""}`,
+      `${planAttributes.address}, ${planAttributes.areas.data[0]?.name}, ${planAttributes.areas.data[0]?.state === "california" ? "CA" : "NV"
+      }${planAttributes.zip ? `. ${planAttributes.zip}` : ""}`,
       0.5,
       1
     );
 
     doc.setFontSize(9);
 
-    if (svgProp.jobber) {
+    if (planAttributes.jobber) {
       doc.rect(6.75, 0.5, 1.25, 1.25);
       doc.text("Jobber", 6.85, 0.75);
-      doc.text(svgProp.jobber.toString(), 6.85, 1);
+      doc.text(planAttributes.jobber.toString(), 6.85, 1);
 
-      if (svgProp.jobbertakedown) {
+      if (planAttributes.jobbertakedown) {
         doc.text("Jobber Takedown", 6.85, 1.25);
-        doc.text(svgProp.jobbertakedown.toString(), 6.85, 1.5);
+        doc.text(planAttributes.jobbertakedown.toString(), 6.85, 1.5);
       }
     }
 
-    if (svgProp.timerHours) {
-      doc.text(`Timer: ${svgProp.timerHours} Hours`, 0.5, 1.25);
+    if (planAttributes.timerHours) {
+      doc.text(`Timer: ${planAttributes.timerHours} Hours`, 0.5, 1.25);
     }
 
-    if (svgProp.timerFallback) {
-      doc.text(`Timer: ${svgProp.timerFallback}`, 0.5, 1.25);
+    if (planAttributes.timerFallback) {
+      doc.text(`Timer: ${planAttributes.timerFallback}`, 0.5, 1.25);
     }
 
     doc.addImage(dataURL, "png", 0.5, 2, 7.5, 8);
 
     let mostRecent = "";
-    if (svgProp.createdAt !== svgProp.updatedAt) {
-      const dates = `Created: ${svgProp.createdAt} Updated: ${svgProp.updatedAt}`;
+    if (planAttributes.createdAt !== planAttributes.updatedAt) {
+      const dates = `Created: ${planAttributes.createdAt} Updated: ${planAttributes.updatedAt}`;
       doc.text(dates, 0.5, 9.5);
-      mostRecent = svgProp.updatedAt;
+      mostRecent = planAttributes.updatedAt;
     } else {
-      doc.text(`Created: ${svgProp.updatedAt}`, 0.5, 9.5);
-      mostRecent = svgProp.createdAt;
+      doc.text(`Created: ${planAttributes.updatedAt}`, 0.5, 9.5);
+      mostRecent = planAttributes.createdAt;
     }
 
     doc.line(0.5, 9.6, 8, 9.6);
@@ -84,8 +106,8 @@ export default function Canvas({ svgProp }: string) {
     doc.addImage(logo, "png", 0.5, 9.7, 1, 0.51);
 
     doc.save(
-      `${svgProp.jobber}${svgProp.jobbertakedown ? `-${svgProp.jobbertakedown}` : ""}-${svgProp.name
-      }-${svgProp.slug}-${svgProp.mostRecent}`
+      `${planAttributes.jobber}${planAttributes.jobbertakedown ? `-${planAttributes.jobbertakedown}` : ""}-${planAttributes.name
+      }-${planAttributes.slug}-${planAttributes.mostRecent}`
     );
     // turn off for developing
 
