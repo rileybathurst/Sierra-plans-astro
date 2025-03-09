@@ -2,16 +2,15 @@
 /* LISTS */
 /*------------------*/
 
-ul {
+/* I had this for something so there might be a break
+  but having it is too much for blocks renderer lists */
+/* ul {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   list-style: none;
   padding-inline-start: 0;
-
-  li {
-  }
-}
+} */
 
 /*------------------*/
 /* AREAS LIST */

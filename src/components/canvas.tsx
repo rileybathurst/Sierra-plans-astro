@@ -1,31 +1,40 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Canvg } from 'canvg';
-// import { PDFBuild } from './pdfBuild';
 import { jsPDF } from "jspdf";
+import {
+  BlocksRenderer,
+  type BlocksContent,
+} from "@strapi/blocks-react-renderer";
 
 type PlanAttributes = {
-  name: string;
-  address: string;
-  zip: string;
-  jobber: number;
-  jobbertakedown: number;
-  timerHours: number;
-  timerFallback: string;
-  svg: string;
-  areas: {
-    data: {
-      name: string;
-      state: string;
-    }[];
+  planAttributes: {
+    name: string;
+    address: string;
+    areas: {
+      data: [
+        {
+          name: string;
+          state: string;
+        }
+      ];
+    };
+    zip: string;
+    jobber: string;
+    jobbertakedown: string;
+    timerHours: string;
+    timerFallback: string;
+    notes: string;
+    blockNotes: BlocksContent;
+    svg: string;
+    slug: string;
+    mostRecent: string;
   };
-  createdAt: string;
-  updatedAt: string;
-  slug: string;
-  mostRecent: string;
+  createdAtDate: string;
+  updatedAtDate?: string;
 };
 
 
-export default function Canvas({ planAttributes }: PlanAttributes) {
+export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }: PlanAttributes) {
 
   const [dataState, setDataState] = useState(' ');
   // console.log(dataState); // nope
@@ -34,6 +43,8 @@ export default function Canvas({ planAttributes }: PlanAttributes) {
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+
+    console.log('🦄');
 
     // grab the canvas and edit it with the useeffect to only do it once its drawn
     const ctx = canvas.current?.getContext("2d");
@@ -86,20 +97,39 @@ export default function Canvas({ planAttributes }: PlanAttributes) {
       doc.text(`Timer: ${planAttributes.timerFallback}`, 0.5, 1.25);
     }
 
+    if (planAttributes.notes) {
+      const splitNote = doc.splitTextToSize(planAttributes.notes, 7);
+      doc.text("Update these to Block Notes", 0.5, 1.25);
+      doc.text(splitNote, 0.5, 1.5, { maxWidth: 6 });
+    }
+
+    if (planAttributes.blockNotes) {
+      const splitNote = doc.splitTextToSize(planAttributes.blockNotes, 7);
+      doc.text(splitNote, 0.5, 1.5, { maxWidth: 6 });
+    }
+
     doc.addImage(dataURL, "png", 0.5, 2, 7.5, 8);
 
-    let mostRecent = "";
-    if (planAttributes.createdAt !== planAttributes.updatedAt) {
-      const dates = `Created: ${planAttributes.createdAt} Updated: ${planAttributes.updatedAt}`;
-      doc.text(dates, 0.5, 9.5);
-      mostRecent = planAttributes.updatedAt;
+    let mostRecent = new Date().toLocaleDateString();
+    if (updatedAtDate) {
+      if (createdAtDate !== updatedAtDate) {
+        const dates = `Created: ${createdAtDate} Updated: ${updatedAtDate}`;
+        doc.text(dates, 0.5, 9.5);
+        mostRecent = updatedAtDate;
+      } else {
+        doc.text(`Created: ${updatedAtDate}`, 0.5, 9.5);
+      }
     } else {
-      doc.text(`Created: ${planAttributes.updatedAt}`, 0.5, 9.5);
-      mostRecent = planAttributes.createdAt;
+      mostRecent = createdAtDate;
     }
+
+    console.log('🦖');
+    console.log(mostRecent);
 
     doc.line(0.5, 9.6, 8, 9.6);
 
+    // TODO: depending if the image over runs remove the logo
+    // I maybe need to svg this
     const logo = new Image();
     logo.src =
       "https://sierralighting.s3.us-west-1.amazonaws.com/sierra_lighting-full_logo-black-fs8.png";
@@ -107,8 +137,9 @@ export default function Canvas({ planAttributes }: PlanAttributes) {
 
     doc.save(
       `${planAttributes.jobber}${planAttributes.jobbertakedown ? `-${planAttributes.jobbertakedown}` : ""}-${planAttributes.name
-      }-${planAttributes.slug}-${planAttributes.mostRecent}`
+      }-${planAttributes.slug}-`
     );
+    // ${mostRecent}
     // turn off for developing
 
   });
@@ -117,7 +148,6 @@ export default function Canvas({ planAttributes }: PlanAttributes) {
     <>
       <canvas ref={canvas} width="2550" height="2550" />
       <img src={dataState} alt="the svg as an img" className="measure" />
-
     </>
   );
 }

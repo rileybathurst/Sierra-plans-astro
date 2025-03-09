@@ -87,6 +87,7 @@ header {
     padding: 0.5rem;
     border-radius: 0.25rem;
     transition: var(--cheetah);
+    /* ? is this first load? */
   }
 
   a:hover {
@@ -109,7 +110,7 @@ header {
 
 ul li a {
   padding: 0.5rem;
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 
 ul li a:where(:hover, :focus) {

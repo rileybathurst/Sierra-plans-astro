@@ -26,9 +26,20 @@ import {
   BlocksRenderer,
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
+
+const createdAtDate = new Date(plan.attributes.createdAt).toLocaleDateString();
+const updatedAtDate = plan.attributes.updatedAt
+  ? new Date(plan.attributes.updatedAt).toLocaleDateString()
+  : null;
 ---
 
 <Layout>
+  {
+    plan.attributes.notes ? (
+      <p class="everest error">There are Notes instead of Block Notes</p>
+    ) : null
+  }
+
   <h1>{plan.attributes.name}</h1>
 
   <address class="capitalize">
@@ -86,24 +97,31 @@ import {
   }
 
   <!-- ! needs styling currently list is removed -->
-  {
-    plan.attributes.notes ? (
-      <BlocksRenderer content={plan.attributes.blockNotes} />
-    ) : (
-      <p>No Notes</p>
-    )
-  }
+  <section class="blocks-renderer">
+    {
+      plan.attributes.blockNotes ? (
+        <BlocksRenderer content={plan.attributes.blockNotes} />
+      ) : (
+        <p>No Notes</p>
+      )
+    }
+  </section>
 
-  <Canvas planAttributes={plan.attributes} client:load />
+  <Canvas
+    planAttributes={plan.attributes}
+    createdAtDate={createdAtDate}
+    updatedAtDate={updatedAtDate}
+    client:load
+  />
 
   <div class="deck">
     <p class="plan-detail">
       <span class="eyebrow">Created at</span>
-      <span class="supra">{plan.attributes.createdAt}</span>
+      <span class="supra">{createdAtDate}</span>
     </p>
     <p class="plan-detail">
       <span class="eyebrow">Updated at</span>
-      <span class="supra"> {plan.attributes.updatedAt}</span>
+      <span class="supra"> {updatedAtDate}</span>
     </p>
   </div>
 </Layout>

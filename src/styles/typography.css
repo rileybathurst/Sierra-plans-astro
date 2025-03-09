@@ -17,7 +17,8 @@ h6 {
   margin-block-start: 0;
 }
 
-h1 {
+h1,
+.everest {
   font-family: "josefin-sans", sans-serif;
 }
 
@@ -33,7 +34,6 @@ p {
 address {
   font-style: normal;
 }
-
 
 hr {
   border: none;
@@ -65,4 +65,3 @@ hr {
     font-size: var(--denali);
   }
 }
-
