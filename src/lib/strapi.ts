@@ -62,24 +62,38 @@ export default async function fetchApi<T>({
 
   while (hasMore) {
     url.searchParams.set("pagination[page]", page.toString());
+
+    // console.log(url.searchParams.get("pagination[page]"));
+
     const res = await fetch(url.toString());
     const pageData = await res.json();
 
     if (wrappedByKey) {
       allData = allData.concat(pageData[wrappedByKey]);
+      // console.log(pageData[wrappedByKey].length);
     } else {
       allData = allData.concat(pageData);
     }
+
+    // console.log(allData.length);
+
+    // console.log(pageData.meta.pagination.page);
+    // console.log(pageData.meta.pagination.pageCount);
 
     hasMore =
       pageData.meta.pagination.page < pageData.meta.pagination.pageCount;
     page++;
   }
 
+  // console.log(allData.length);
+
   // browser check
   // console.log(url.href);
 
-  if (query) {
+  return allData as T;
+}
+
+/* if (query) {
     for (const [key, value] of Object.entries(query)) {
       url.searchParams.append(key, value);
     }
@@ -91,9 +105,9 @@ export default async function fetchApi<T>({
     allDataJson = allDataJson[wrappedByKey];
   }
 
-  if (wrappedByList) {
+    if (wrappedByList) {
     allDataJson = allDataJson[0];
   }
 
   return allDataJson as T;
-}
+} */

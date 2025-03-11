@@ -21,11 +21,7 @@ export async function getStaticPaths() {
 type Props = Plan;
 
 const plan = Astro.props;
-
-import {
-  BlocksRenderer,
-  type BlocksContent,
-} from "@strapi/blocks-react-renderer";
+import SuperSimple from "../../components/super-simple";
 
 const createdAtDate = new Date(plan.attributes.createdAt).toLocaleDateString();
 const updatedAtDate = plan.attributes.updatedAt
@@ -45,10 +41,12 @@ const updatedAtDate = plan.attributes.updatedAt
   <address class="capitalize">
     <span class="kilimanjaro">{plan.attributes.address}</span><br />
     {
-      plan.attributes?.areas.data[0]?.attributes?.name ??
+      plan.attributes?.areas?.data[0]?.attributes?.name ??
         "No area name available"
-    }<br />
-    {plan.attributes?.areas.data[0]?.attributes?.state}
+    },
+    {
+      plan.attributes?.areas?.data[0]?.attributes?.state ?? "No state available"
+    }, {plan.attributes.zip}
   </address>
 
   <hr />
@@ -96,23 +94,45 @@ const updatedAtDate = plan.attributes.updatedAt
     ) : null
   }
 
+  {
+    plan.attributes.basicNotes ? (
+      <>
+        <h2>Basic Notes</h2>
+        <pre>{plan.attributes.basicNotes}</pre>
+      </>
+    ) : null
+  }
+
   <!-- ! needs styling currently list is removed -->
-  <section class="blocks-renderer">
+  <!-- the notes had to be reformatted due to how astro deals with markdown -->
+  <!-- <section class="blocks-renderer">
     {
       plan.attributes.blockNotes ? (
         <BlocksRenderer content={plan.attributes.blockNotes} />
       ) : (
-        <p>No Notes</p>
+        <p>No Block Notes</p>
       )
     }
-  </section>
+  </section> -->
 
+  {
+    plan.attributes.notes ? (
+      <>
+        <h2>Old Notes</h2>
+        {plan.attributes.notes}
+      </>
+    ) : null
+  }
+
+  <!-- TODO: rename -->
   <Canvas
     planAttributes={plan.attributes}
     createdAtDate={createdAtDate}
     updatedAtDate={updatedAtDate}
     client:load
   />
+
+  <!-- <SuperSimple client:load /> -->
 
   <div class="deck">
     <p class="plan-detail">
@@ -124,7 +144,7 @@ const updatedAtDate = plan.attributes.updatedAt
       <span class="supra"> {updatedAtDate}</span>
     </p>
   </div>
-</Layout>
 
-<!-- http://45.79.101.19:1340/api/plans?populate[areas]=true -->
-<!-- http://45.79.101.19:1340/api/plans?populate[areas]=true&[notes]=true -->
+  <!-- http://45.79.101.19:1340/api/plans?populate[areas]=true -->
+  <!-- http://45.79.101.19:1340/api/plans?populate[areas]=true&[notes]=true -->
+</Layout>

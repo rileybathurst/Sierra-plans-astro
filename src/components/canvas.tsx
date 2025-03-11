@@ -1,10 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Canvg } from 'canvg';
 import { jsPDF } from "jspdf";
-import {
-  BlocksRenderer,
-  type BlocksContent,
-} from "@strapi/blocks-react-renderer";
 
 type PlanAttributes = {
   planAttributes: {
@@ -24,7 +20,7 @@ type PlanAttributes = {
     timerHours: string;
     timerFallback: string;
     notes: string;
-    blockNotes: BlocksContent;
+    basicNotes: string;
     svg: string;
     slug: string;
     mostRecent: string;
@@ -42,12 +38,20 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
   // do not name this it breaks the build
   const canvas = useRef<HTMLCanvasElement>(null);
 
+  // console.log(planAttributes.blockNotes);
+  // console.log(planAttributes.blockNotes[0].children[0].children);
+
+  // console.log('🦄');
+
   useEffect(() => {
 
-    console.log('🦄');
+    // console.log('🐽');
+
+    // console logs here show in the browser console
 
     // grab the canvas and edit it with the useeffect to only do it once its drawn
     const ctx = canvas.current?.getContext("2d");
+    // console.log(ctx);
     if (!ctx) return;
     // const v = Canvg.fromString(ctx, svgTest);
     const v = Canvg.fromString(ctx, planAttributes.svg);
@@ -56,6 +60,9 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
     // base64 encode the canvas image
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
     const dataURL = canvas.current?.toDataURL() || '';
+    // console.log(dataURL);
+
+    // console.log('🦁');
 
     setDataState(dataURL);
 
@@ -97,20 +104,20 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
       doc.text(`Timer: ${planAttributes.timerFallback}`, 0.5, 1.25);
     }
 
-    if (planAttributes.notes) {
-      const splitNote = doc.splitTextToSize(planAttributes.notes, 7);
-      doc.text("Update these to Block Notes", 0.5, 1.25);
+    if (planAttributes.basicNotes) {
+      const splitNote = doc.splitTextToSize(planAttributes.basicNotes, 7);
       doc.text(splitNote, 0.5, 1.5, { maxWidth: 6 });
     }
 
-    if (planAttributes.blockNotes) {
-      const splitNote = doc.splitTextToSize(planAttributes.blockNotes, 7);
+    if (planAttributes.notes) {
+      const splitNote = doc.splitTextToSize(planAttributes.notes, 7);
+      // doc.text("Update these to Basic Notes", 0.5, 1.25);
       doc.text(splitNote, 0.5, 1.5, { maxWidth: 6 });
     }
 
     doc.addImage(dataURL, "png", 0.5, 2, 7.5, 8);
 
-    let mostRecent = new Date().toLocaleDateString();
+    let mostRecent = '';
     if (updatedAtDate) {
       if (createdAtDate !== updatedAtDate) {
         const dates = `Created: ${createdAtDate} Updated: ${updatedAtDate}`;
@@ -123,26 +130,23 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
       mostRecent = createdAtDate;
     }
 
-    console.log('🦖');
-    console.log(mostRecent);
-
     doc.line(0.5, 9.6, 8, 9.6);
 
-    // TODO: depending if the image over runs remove the logo
+    // * this was breaking due to it being from AWS so i just pulled it
     // I maybe need to svg this
-    const logo = new Image();
-    logo.src =
-      "https://sierralighting.s3.us-west-1.amazonaws.com/sierra_lighting-full_logo-black-fs8.png";
+    /* const logo = new Image();
+    logo.src = "../assets/sierra-lighting-logo Small.jpeg";
     doc.addImage(logo, "png", 0.5, 9.7, 1, 0.51);
+
+    console.log('🦖'); */
 
     doc.save(
       `${planAttributes.jobber}${planAttributes.jobbertakedown ? `-${planAttributes.jobbertakedown}` : ""}-${planAttributes.name
-      }-${planAttributes.slug}-`
+      }-${planAttributes.slug}-${mostRecent}.pdf`
     );
-    // ${mostRecent}
     // turn off for developing
 
-  });
+  }, [planAttributes, createdAtDate, updatedAtDate]);
 
   return (
     <>
