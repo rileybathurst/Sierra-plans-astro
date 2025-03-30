@@ -18,9 +18,7 @@ interface Props {
  */
 export default async function fetchApi<T>({
   endpoint,
-  query,
   wrappedByKey,
-  wrappedByList,
   fields,
 }: Props): Promise<T> {
   if (endpoint.startsWith("/")) {
@@ -56,6 +54,8 @@ export default async function fetchApi<T>({
     }&pagination[pageSize]=100&pagination[page]=100`
   );
 
+  // console.log(meta);
+
   let allData: T[] = [];
   let page = 1;
   let hasMore = true;
@@ -63,51 +63,26 @@ export default async function fetchApi<T>({
   while (hasMore) {
     url.searchParams.set("pagination[page]", page.toString());
 
-    // console.log(url.searchParams.get("pagination[page]"));
+    const res = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${import.meta.env.STRAPI_TOKEN}`,
+      },
+    });
+    // const { data, meta } = await res.json();
 
-    const res = await fetch(url.toString());
     const pageData = await res.json();
 
     if (wrappedByKey) {
       allData = allData.concat(pageData[wrappedByKey]);
-      // console.log(pageData[wrappedByKey].length);
     } else {
       allData = allData.concat(pageData);
     }
-
-    // console.log(allData.length);
-
-    // console.log(pageData.meta.pagination.page);
-    // console.log(pageData.meta.pagination.pageCount);
 
     hasMore =
       pageData.meta.pagination.page < pageData.meta.pagination.pageCount;
     page++;
   }
 
-  // console.log(allData.length);
-
-  // browser check
-  // console.log(url.href);
-
   return allData as T;
 }
-
-/* if (query) {
-    for (const [key, value] of Object.entries(query)) {
-      url.searchParams.append(key, value);
-    }
-  }
-  const res = await fetch(url.toString());
-  let allDataJson = await res.json();
-
-  if (wrappedByKey) {
-    allDataJson = allDataJson[wrappedByKey];
-  }
-
-    if (wrappedByList) {
-    allDataJson = allDataJson[0];
-  }
-
-  return allDataJson as T;
-} */
