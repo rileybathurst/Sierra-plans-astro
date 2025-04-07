@@ -41,11 +41,11 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
   // console.log(planAttributes.blockNotes);
   // console.log(planAttributes.blockNotes[0].children[0].children);
 
-  // console.log('🦄');
+
+  // console.log(planAttributes.areas);
+  console.log(planAttributes.areas.data[0].attributes.name);
 
   useEffect(() => {
-
-    // console.log('🐽');
 
     // console logs here show in the browser console
 
@@ -62,8 +62,6 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
     const dataURL = canvas.current?.toDataURL() || '';
     // console.log(dataURL);
 
-    // console.log('🦁');
-
     setDataState(dataURL);
 
     const doc = new jsPDF("p", "in", "letter", true);
@@ -77,7 +75,7 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
     doc.setFontSize(12);
 
     doc.text(
-      `${planAttributes.address}, ${planAttributes.areas.data[0]?.name}, ${planAttributes.areas.data[0]?.state === "california" ? "CA" : "NV"
+      `${planAttributes.address}, ${planAttributes.areas.data[0]?.attributes.name}, ${planAttributes.areas.data[0]?.attributes.state === "california" ? "CA" : "NV"
       }${planAttributes.zip ? `. ${planAttributes.zip}` : ""}`,
       0.5,
       1
@@ -137,8 +135,7 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
     /* const logo = new Image();
     logo.src = "../assets/sierra-lighting-logo Small.jpeg";
     doc.addImage(logo, "png", 0.5, 9.7, 1, 0.51);
-
-    console.log('🦖'); */
+    */
 
     doc.save(
       `${planAttributes.jobber}${planAttributes.jobbertakedown ? `-${planAttributes.jobbertakedown}` : ""}-${planAttributes.name
