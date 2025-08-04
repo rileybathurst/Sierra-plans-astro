@@ -38,15 +38,7 @@ export default function Canvas({ planAttributes, createdAtDate, updatedAtDate }:
   // do not name this it breaks the build
   const canvas = useRef<HTMLCanvasElement>(null);
 
-  // console.log(planAttributes.blockNotes);
-  // console.log(planAttributes.blockNotes[0].children[0].children);
-
-
-  // console.log(planAttributes.areas);
-  console.log(planAttributes.areas.data[0].attributes.name);
-
   useEffect(() => {
-
     // console logs here show in the browser console
 
     // grab the canvas and edit it with the useeffect to only do it once its drawn

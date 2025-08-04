@@ -2,10 +2,11 @@
 // ! throw an error if I have notes instead of blockNotes
 
 import fetchApi from "../../lib/strapi";
-import type Plan from "../../interfaces/plan";
+import type Plan from "../../interfaces/plan-types";
 import Canvas from "../../components/canvas";
 import Layout from "../../layouts/Layout.astro";
 
+// ! I think this shouldn't use the fetchApi but rather a getStaticPaths as main page is soo different
 export async function getStaticPaths() {
   const plans = await fetchApi<Plan[]>({
     endpoint: "plans",
@@ -21,7 +22,7 @@ export async function getStaticPaths() {
 type Props = Plan;
 
 const plan = Astro.props;
-import SuperSimple from "../../components/super-simple";
+// import SuperSimple from "../../components/super-simple";
 
 const createdAtDate = new Date(plan.attributes.createdAt).toLocaleDateString();
 const updatedAtDate = plan.attributes.updatedAt

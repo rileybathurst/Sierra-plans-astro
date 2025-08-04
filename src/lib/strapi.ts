@@ -54,12 +54,13 @@ export default async function fetchApi<T>({
     }&pagination[pageSize]=100&pagination[page]=100`
   );
 
-  // console.log(meta);
+  console.log(url);
 
   let allData: T[] = [];
   let page = 1;
-  let hasMore = true;
+  let hasMore = true; // ! this is dumb I have to bring it in if
 
+  /* // ! off for testing
   while (hasMore) {
     url.searchParams.set("pagination[page]", page.toString());
 
@@ -82,7 +83,7 @@ export default async function fetchApi<T>({
     hasMore =
       pageData.meta.pagination.page < pageData.meta.pagination.pageCount;
     page++;
-  }
+  } */
 
   return allData as T;
 }

@@ -1,4 +1,4 @@
-export default interface Plan {
+type PlanTypes = {
   id: number;
   attributes: {
     address: string;
@@ -20,4 +20,6 @@ export default interface Plan {
       };
     }[];
   };
-}
+};
+
+export type { PlanTypes };

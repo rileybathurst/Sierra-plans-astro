@@ -1,11 +1,14 @@
 ---
-import type { cardTypes } from "../interfaces/cardTypes";
+import type { cardTypes } from "../interfaces/card-types";
 const { ...attributes } = Astro.props;
+
+// console.log(attributes);
+// console.log(attributes.id);
 ---
 
 <a href={`/p/${attributes.slug}`} class="card card__plan">
   <section class="name">
-    <h3>{attributes.name}</h3>
+    <h3>{attributes?.name}</h3>
     <p class="supra">Name</p>
   </section>
   <section class="address">
@@ -13,11 +16,11 @@ const { ...attributes } = Astro.props;
     <p class="supra">Address</p>
   </section>
   <section class="jobber">
-    {attributes.jobber}
+    {attributes?.jobber}
     <p class="supra">Jobber</p>
   </section>
   <section class="jobbertakedown">
-    {attributes.jobbertakedown}
+    {attributes?.jobbertakedown}
     <p class="supra">Jobber Takedown</p>
   </section>
 </a>

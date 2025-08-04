@@ -2,19 +2,18 @@
 import Layout from "../layouts/Layout.astro";
 
 import fetchApi from "../lib/strapi";
-import type Plan from "../interfaces/plan";
+import type { PlanTypes } from "../interfaces/plan-types";
 import Card from "../components/card.astro";
 
-const plans = await fetchApi<Plan[]>({
+const plans = await fetchApi<PlanTypes[]>({
   endpoint: "plans", // the content type to fetch
   wrappedByKey: "data", // the key to unwrap the response
 });
+
+// console.log(plans);
+// console.log(plans.map((plan) => plan.id));
 ---
 
 <Layout>
-  {
-    plans.map((plan) => (
-      <Card {...plan.attributes} name={plan.attributes.name} />
-    ))
-  }
+  {plans.map((plan) => <Card {...plan} />)}
 </Layout>
