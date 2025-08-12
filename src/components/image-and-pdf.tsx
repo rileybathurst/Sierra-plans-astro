@@ -49,6 +49,10 @@ export default function ImageAndPDF({ plan, createdAtDate, updatedAtDate }: { pl
         const splitNote = doc.splitTextToSize(plan.notes, 7);
         doc.text(splitNote, 0.5, 1.5, { maxWidth: 6 });
       }
+      if (plan.basicNotes) {
+        const splitBasicNote = doc.splitTextToSize(plan.basicNotes, 7);
+        doc.text(splitBasicNote, 0.5, 1.5);
+      }
 
       if (plan.svg) {
         const canvas = document.createElement('canvas');
