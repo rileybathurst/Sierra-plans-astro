@@ -1,9 +1,5 @@
 ---
-import type { cardTypes } from "../interfaces/card-types";
 const { ...attributes } = Astro.props;
-
-// console.log(attributes);
-// console.log(attributes.id);
 ---
 
 <a href={`/p/${attributes.slug}`} class="card card__plan">

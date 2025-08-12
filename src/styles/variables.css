@@ -1,4 +1,3 @@
-/* TODO: updates these to the new style */
 :root {
   /*------------------------------------*/
   /* #COLOR */
@@ -85,6 +84,8 @@
   --bantamweight: 300;
   --flyweight: 200;
   --atomweight: 100;
+
+  --sans-serif: "Josefin Sans Variable", sans-serif;
 
   /*------------------------------------*/
   /* #ANIMATION */

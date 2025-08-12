@@ -14,10 +14,9 @@
 
 .card {
   /* font-family: "josefin-sans", sans-serif; */
-  font-family: "Josefin Sans Variable", sans-serif;
-  background-color: hsl(var(--honey), 75%, 87%); /* TODO: variables */
+  font-family: var(--sans-serif);
+  background-color: hsl(var(--honey), 75%, 87%);
   border: 2px solid whitesmoke;
-  border-radius: var(--card-radius);
   border-radius: 0.5rem;
   padding: 1rem;
   margin-block-end: var(--baseline);
@@ -39,7 +38,6 @@
 /* STACK */
 /*------------------*/
 
-/* ! this is going to want a container query */
 .card__plan {
   display: grid;
   grid-template-columns: 1.67fr 1fr;
@@ -92,7 +90,6 @@
 
   h3,
   h4 {
-    font-weight: 700; /* TODO: not working */
-    font-weight: bold; /* TODO: not working */
+    font-weight: bold;
   }
 }

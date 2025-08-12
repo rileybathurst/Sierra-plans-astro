@@ -1,25 +1,27 @@
 type PlanTypes = {
   id: number;
-  attributes: {
-    address: string;
+  address: string;
+  name: string;
+  slug: string;
+  jobber: number;
+  jobbertakedown: string;
+  zip: number;
+  timerHours: number;
+  timerFallback: string;
+
+  notes: string;
+  basicNotes?: string;
+
+  createdAt: string;
+  updatedAt?: string;
+
+  areas?: {
     name: string;
     slug: string;
-    notes: string;
-    jobber: number;
-    jobbertakedown: string;
-    zip: number;
-    timerHours: number;
-    timerFallback: string;
+    state: string;
+  }[];
 
-    areas?: {
-      data: {
-        attributes: {
-          name: string;
-          slug: string;
-        };
-      };
-    }[];
-  };
+  svg: string;
 };
 
 export type { PlanTypes };

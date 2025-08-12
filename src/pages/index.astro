@@ -8,10 +8,8 @@ import Card from "../components/card.astro";
 const plans = await fetchApi<PlanTypes[]>({
   endpoint: "plans", // the content type to fetch
   wrappedByKey: "data", // the key to unwrap the response
+  more: true,
 });
-
-// console.log(plans);
-// console.log(plans.map((plan) => plan.id));
 ---
 
 <Layout>

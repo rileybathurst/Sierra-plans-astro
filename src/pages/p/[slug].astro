@@ -1,53 +1,47 @@
 ---
-// ! throw an error if I have notes instead of blockNotes
-
 import fetchApi from "../../lib/strapi";
-import type Plan from "../../interfaces/plan-types";
-import Canvas from "../../components/canvas";
+import type { PlanTypes } from "../../interfaces/plan-types";
+import ImageAndPDF from "../../components/image-and-pdf";
 import Layout from "../../layouts/Layout.astro";
 
-// ! I think this shouldn't use the fetchApi but rather a getStaticPaths as main page is soo different
 export async function getStaticPaths() {
-  const plans = await fetchApi<Plan[]>({
-    endpoint: "plans",
-    wrappedByKey: "data",
-    fields: ["areas", "notes"],
+  const plans = await fetchApi<PlanTypes[]>({
+    endpoint: "plans", // the content type to fetch
+    wrappedByKey: "data", // the key to unwrap the response
+    more: true,
+    fields: ["areas"],
   });
 
   return plans.map((plan) => ({
-    params: { slug: plan.attributes.slug },
+    params: { slug: plan.slug },
     props: plan,
   }));
 }
-type Props = Plan;
 
 const plan = Astro.props;
-// import SuperSimple from "../../components/super-simple";
 
-const createdAtDate = new Date(plan.attributes.createdAt).toLocaleDateString();
-const updatedAtDate = plan.attributes.updatedAt
-  ? new Date(plan.attributes.updatedAt).toLocaleDateString()
+const createdAtDate = new Date(plan.createdAt).toLocaleDateString();
+const updatedAtDate = plan.updatedAt
+  ? new Date(plan.updatedAt).toLocaleDateString()
   : null;
+
+plan.notes &&
+  console.error("using the old plan notes, move them to basic notes");
 ---
 
 <Layout>
   {
-    plan.attributes.notes ? (
+    plan.notes ? (
       <p class="everest error">There are Notes instead of Block Notes</p>
     ) : null
   }
 
-  <h1>{plan.attributes.name}</h1>
+  <h1>{plan.name}</h1>
 
   <address class="capitalize">
-    <span class="kilimanjaro">{plan.attributes.address}</span><br />
-    {
-      plan.attributes?.areas?.data[0]?.attributes?.name ??
-        "No area name available"
-    },
-    {
-      plan.attributes?.areas?.data[0]?.attributes?.state ?? "No state available"
-    }, {plan.attributes.zip}
+    <span class="kilimanjaro">{plan.address}</span><br />
+    {plan?.areas?.[0]?.name ?? "No area name available"},
+    {plan?.areas?.[0]?.state ?? "No state available"}, {plan.zip}
   </address>
 
   <hr />
@@ -57,8 +51,8 @@ const updatedAtDate = plan.attributes.updatedAt
       <span class="eyebrow">Jobber install</span>
       <span class="supra"
         >{
-          plan.attributes.jobber
-            ? plan.attributes.jobber
+          plan.jobber
+            ? plan.jobber
             : '<span class="error">Missing Jobber</span>'
         }</span
       >
@@ -67,8 +61,8 @@ const updatedAtDate = plan.attributes.updatedAt
       <span class="eyebrow">Jobber takedown</span>
       <span class="supra"
         >{
-          plan.attributes.jobbertakedown
-            ? plan.attributes.jobbertakedown
+          plan.jobbertakedown
+            ? plan.jobbertakedown
             : '<span class="error">Missing Jobber Takedown</span>'
         }</span
       >
@@ -78,62 +72,47 @@ const updatedAtDate = plan.attributes.updatedAt
   <hr />
 
   {
-    plan.attributes.timerHours ? (
+    plan.timerHours ? (
       <p class="plan-detail">
         <span class="eyebrow">Timer</span>
-        <span class="supra">{plan.attributes.timerHours} Hours</span>
+        <span class="supra">{plan.timerHours} Hours</span>
       </p>
     ) : null
   }
 
   {
-    plan.attributes.timerFallback ? (
+    plan.timerFallback ? (
       <p class="plan-detail">
         <span class="eyebrow">Timer</span>
-        <span class="supra">{plan.attributes.timerFallback}</span>
+        <span class="supra">{plan.timerFallback}</span>
       </p>
     ) : null
   }
 
   {
-    plan.attributes.basicNotes ? (
+    plan.basicNotes ? (
       <>
         <h2>Basic Notes</h2>
-        <pre>{plan.attributes.basicNotes}</pre>
+        <pre>{plan.basicNotes}</pre>
       </>
     ) : null
   }
-
-  <!-- ! needs styling currently list is removed -->
-  <!-- the notes had to be reformatted due to how astro deals with markdown -->
-  <!-- <section class="blocks-renderer">
-    {
-      plan.attributes.blockNotes ? (
-        <BlocksRenderer content={plan.attributes.blockNotes} />
-      ) : (
-        <p>No Block Notes</p>
-      )
-    }
-  </section> -->
 
   {
-    plan.attributes.notes ? (
+    plan.notes ? (
       <>
         <h2>Old Notes</h2>
-        {plan.attributes.notes}
+        {plan.notes}
       </>
     ) : null
   }
 
-  <!-- TODO: rename -->
-  <Canvas
-    planAttributes={plan.attributes}
+  <ImageAndPDF
+    plan={plan}
     createdAtDate={createdAtDate}
-    updatedAtDate={updatedAtDate}
+    updatedAtDate={updatedAtDate ?? ""}
     client:load
   />
-
-  <!-- <SuperSimple client:load /> -->
 
   <div class="deck">
     <p class="plan-detail">
@@ -145,7 +124,4 @@ const updatedAtDate = plan.attributes.updatedAt
       <span class="supra"> {updatedAtDate}</span>
     </p>
   </div>
-
-  <!-- http://45.79.101.19:1340/api/plans?populate[areas]=true -->
-  <!-- http://45.79.101.19:1340/api/plans?populate[areas]=true&[notes]=true -->
 </Layout>

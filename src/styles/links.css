@@ -38,15 +38,10 @@ button,
   }
 
   a {
-    color: hsl(
-      var(--honey),
-      100%,
-      25%
-    ) !important; /* ! fix this but keep a11y color contrast */
+    color: hsl(var(--honey), 100%, 25%) !important;
   }
 }
 
-/* TODO active and focus */
 button:hover,
 .button:hover {
   color: hsl(var(--honey), 100%, 2.5%);
@@ -61,7 +56,6 @@ button:hover,
   }
 }
 
-/* TODO active and focus */
 button:focus,
 .button:focus {
   color: hsl(var(--honey), 100%, 2.5%);
@@ -114,7 +108,7 @@ ul li a {
 }
 
 ul li a:where(:hover, :focus) {
-  background: #ffdc00; /* TODO: */
+  background: yellow;
   text-decoration: none;
 }
 

@@ -6,6 +6,7 @@ interface Props {
   wrappedByKey?: string;
   wrappedByList?: boolean;
   fields?: string[];
+  more?: boolean;
 }
 
 /**
@@ -14,18 +15,18 @@ interface Props {
  * @param query - The query parameters to add to the url
  * @param wrappedByKey - The key to unwrap the response from
  * @param wrappedByList - If the response is a list, unwrap it
+ * @param more - If true, fetch more data
  * @returns
  */
 export default async function fetchApi<T>({
   endpoint,
   wrappedByKey,
   fields,
+  more,
 }: Props): Promise<T> {
   if (endpoint.startsWith("/")) {
     endpoint = endpoint.slice(1);
   }
-
-  // console.log(fields);
 
   const keyValueFields = fields?.map((field, index) => {
     return {
@@ -42,8 +43,6 @@ export default async function fetchApi<T>({
     }, {} as Record<string, string>)
   );
 
-  // console.log(passedFields);
-
   // the questions mark is always needed but its fine to run it straight into an ampersand
   // http://45.79.101.19:1340/api/plans?&pagination[pageSize]=100
 
@@ -51,16 +50,13 @@ export default async function fetchApi<T>({
   const url = new URL(
     `${import.meta.env.STRAPI_URL}/api/${endpoint}?${
       fields ? `${passedFields}` : ""
-    }&pagination[pageSize]=100&pagination[page]=100`
+    }${more ? `&pagination[pageSize]=100&pagination[page]=100` : ""}`
   );
-
-  console.log(url);
 
   let allData: T[] = [];
   let page = 1;
-  let hasMore = true; // ! this is dumb I have to bring it in if
+  let hasMore = more;
 
-  /* // ! off for testing
   while (hasMore) {
     url.searchParams.set("pagination[page]", page.toString());
 
@@ -83,7 +79,7 @@ export default async function fetchApi<T>({
     hasMore =
       pageData.meta.pagination.page < pageData.meta.pagination.pageCount;
     page++;
-  } */
+  }
 
   return allData as T;
 }

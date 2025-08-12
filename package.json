@@ -3,9 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "start": "astro dev",
+    "start": "astro dev && tsc --noEmit",
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "tsc --noEmit && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 
 function Slug() {
-  // TODO: make this pretty
 
   const [slug, setSlug] = useState('');
+  const inputId = useId();
 
   function slugger(e: React.ChangeEvent<HTMLInputElement>) {
     setSlug(e.target.value);
@@ -13,9 +13,8 @@ function Slug() {
   return (
     <div className="slug">
       <form>
-
-        <label htmlFor="slug">Slug&nbsp;</label>
-        <input type="text" id="slug" name="slug" onChange={slugger} />
+        <label htmlFor={inputId}>Slug&nbsp;</label>
+        <input type="text" id={inputId} name="slug" onChange={slugger} />
 
         <a href={`/p/${slug}`} className="button">
           p/{slug}

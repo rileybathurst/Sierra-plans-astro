@@ -3,24 +3,12 @@
 /*------------------------------------*/
 
 body {
-  /* TODO: this is too close to white I cant go brighter over it so I have to go dark or different */
-  /* background-color: hsl(var(--honey), 100%, 97.5%); */
-  background-color: hsl(var(--honey), 100%, 99%); /* from the sierra lighting site */
+  background-color: hsl(
+    var(--honey),
+    100%,
+    99%
+  ); /* from the sierra lighting site */
 }
-
-/* main {
-  background-color: hsl(var(--honey), 50%, 97.5%);
-  box-shadow: 0 0 0 100vmax hsl(var(--honey), 100%, 97.5%);
-  clip-path: inset(0 -100vmax);
-} */
-
-/* .index-main {
-  > h3  {
-    background-color: hsl(var(--honey), 100%, 97.5%);
-    box-shadow: 0 0 0 100vmax hsl(var(--honey), 100%, 97.5%);
-    clip-path: inset(0 -100vmax);
-  }
-} */
 
 .error {
   color: var(--error);
