@@ -1,4 +1,4 @@
-import querystring from "node:querystring";
+// import { env } from "../env";
 
 interface Props {
   endpoint: string;
@@ -35,13 +35,14 @@ export default async function fetchApi<T>({
     };
   });
 
-  const passedFields = querystring.stringify(
-    // populate[areas]=true
-    keyValueFields?.reduce((acc, field) => {
-      acc[`populate[${field.name}]`] = "true";
-      return acc;
-    }, {} as Record<string, string>)
-  );
+  const passedFields = keyValueFields
+    ? new URLSearchParams(
+        keyValueFields.reduce((acc, field) => {
+          acc[`populate[${field.name}]`] = "true";
+          return acc;
+        }, {} as Record<string, string>)
+      ).toString()
+    : "";
 
   // the questions mark is always needed but its fine to run it straight into an ampersand
   // http://45.79.101.19:1340/api/plans?&pagination[pageSize]=100
@@ -52,6 +53,8 @@ export default async function fetchApi<T>({
       fields ? `${passedFields}` : ""
     }${more ? `&pagination[pageSize]=100&pagination[page]=100` : ""}`
   );
+
+  console.log(url.toString());
 
   let allData: T[] = [];
   let page = 1;
