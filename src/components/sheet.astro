@@ -1,0 +1,11 @@
+---
+const { ...attributes } = Astro.props;
+
+console.log(attributes)
+---
+
+<a href={`/p/${attributes.slug}`} class="sheet sheet__plan">
+  <h1 class="jobber">{attributes?.jobber}</h1>
+  <h3 class="name">{attributes?.name}</h3>
+  <p class="address capitalize">{attributes.address}, {attributes.areas?.[0]?.name}, {attributes.areas?.[0]?.state}, {attributes?.zip}</p>
+</a>

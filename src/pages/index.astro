@@ -3,15 +3,16 @@ import Layout from "../layouts/Layout.astro";
 
 import fetchApi from "../lib/strapi";
 import type { PlanTypes } from "../interfaces/plan-types";
-import Card from "../components/card.astro";
+import Sheet from "../components/sheet.astro";
 
 const plans = await fetchApi<PlanTypes[]>({
   endpoint: "plans", // the content type to fetch
   wrappedByKey: "data", // the key to unwrap the response
   more: true,
+  fields: ["areas"],
 });
 ---
 
 <Layout>
-  {plans.map((plan) => <Card {...plan} />)}
+  {plans.map((plan) => <Sheet {...plan} />)}
 </Layout>

@@ -1,121 +1,224 @@
-/*------------------*/
+/*------------------------------------*/
 /* LINKS */
-/*------------------*/
+/*------------------------------------*/
 
 a {
-  /* color: hsl(var(--honey), 100%, 30%); */
-  color: hsl(var(--honey), 100%, 25%);
-  transition: var(--cheetah);
+  color: var(--honey-600);
+  transition: var(--moment);
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--denim-300);
+  }
 }
 
-a:where(:hover, :focus) {
-  color: hsl(35, 100%, 12.5%);
+a:hover,
+.a-hover {
+  text-decoration: none; /*  TODO: add somenice animation to this */
+  color: var(--honey-700);
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--denim-400);
+  }
 }
 
-/*------------------------------------*/
-/* #BUTTONS */
-/*------------------------------------*/
+a:focus,
+.a-focus {
+  color: var(--honey-700);
+  text-decoration: none;
+  @media (prefers-color-scheme: dark) {
+    color: var(--denim-500);
+  }
+}
+
+a::selection {
+  background-color: var(--honey-600);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--denim-600);
+  }
+}
+
+.link--subtle {
+  color: var(--denim-700);
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--honey-50); /*  custom */
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: var(--denim-700);
+
+    @media (prefers-color-scheme: dark) {
+      color: var(--honey-50); /*  custom */
+    }
+  }
+}
+
+/*------------------*/
+/* BUTTON */
+/*------------------*/
 
 button,
 .button {
-  background-color: hsl(var(--honey), 100%, 75%);
-  border: 1px solid hsl(var(--honey), 100%, 63%);
+  background-color: var(--honey-200);
+  border: 1px solid var(--honey-300);
   width: max-content;
-  padding-block-start: 0.75rem;
+  padding-block-start: var(--kosciuszko);
   padding-block-end: 0.5rem;
-  padding-inline: 1rem;
+  padding-inline: var(--vinson);
   box-shadow: var(--mesosphere);
   transition: var(--moment);
-  margin-inline-start: 1rem;
-  margin-block-end: 1.5rem;
+  margin-inline-start: var(--vinson);
+  margin-block-end: var(--kilimanjaro);
   border-radius: var(--border-radius);
-  color: hsl(var(--honey), 100%, 25%);
+  color: var(--honey-600);
 
   @media (prefers-color-scheme: dark) {
-    background-color: hsl(var(--denim), 25%, 12%);
-    border-color: hsl(var(--denim), 12%, 25%);
-    color: hsl(var(--denim), 25%, 63%);
+    background-color: var(--denim-700);
+    border-color: var(--denim-600);
+    color: var(--denim-200);
   }
 
   a {
-    color: hsl(var(--honey), 100%, 25%) !important;
+    color: hsl(
+      var(--honey),
+      100%,
+      25%
+    ) !important; /*  ! fix this but keep a11y color contrast */
   }
 }
 
+button {
+  padding-block-start: var(--kosciuszko);
+  padding-block-end: 0.5rem;
+}
+
+.button {
+  text-decoration: none;
+  display: inline-block;
+  padding-block: var(--kosciuszko);
+}
+
+/*  TODO active and focus */
 button:hover,
 .button:hover {
-  color: hsl(var(--honey), 100%, 2.5%);
+  color: var(--honey-700);
   box-shadow: var(--stratosphere);
-  background-color: hsl(var(--honey), 87%, 63%);
-  border-color: hsl(var(--honey), 87%, 50%);
+  background-color: var(--honey-300);
+  border-color: var(--honey-400);
 
   @media (prefers-color-scheme: dark) {
-    background-color: hsl(var(--denim), 25%, 37%);
-    border-color: hsl(var(--denim), 12%, 50%);
-    color: hsl(var(--denim), 25%, 97.5%);
+    background-color: var(--denim-500);
+    border-color: var(--denim-400);
+    color: var(--denim-100);
   }
 }
 
-button:focus,
+/*  TODO: */
+/* button:focus,
 .button:focus {
-  color: hsl(var(--honey), 100%, 2.5%);
-  box-shadow: var(--stratosphere);
-  background-color: hsl(var(--honey), 87%, 63%);
-  border-color: hsl(var(--honey), 87%, 50%);
+} */
+
+.button--left-align {
+  margin-inline-start: 0;
+}
+
+.button-hero {
+  place-self: start;
+}
+
+/*------------------*/
+/* HOVER BACK, this is a kinda button style */
+/*  * this should be on the <a> tag to not have to worry about child styles */
+/*------------------*/
+
+.bigboy a:not(.header__logo),
+.contact-info a,
+.footer_list a .hover-back {
+  /*  ? how much of this is a button */
+  padding-block: var(--kosciuszko);
+  padding-inline: 0.5rem;
+  display: block;
+  max-width: max-content;
+  border-radius: var(--border-radius);
+  border: 1px solid transparent;
+  transform: var(--moment);
+  transition: var(--moment);
+  /*  theres no color indicated here it all comes from the <a> so it doesnt need a dark */
+}
+
+/*  * make this reusable */
+.footer_list a:hover,
+.footer_list a:focus .bigboy a:hover,
+.bigboy a:focus,
+.contact-info a:hover,
+.contact-info a:focus .hover-back:hover,
+.hover-back__hover {
+  background-color: var(--honey-100);
+  border-color: var(--honey-200);
+  box-shadow: var(--mesosphere);
 
   @media (prefers-color-scheme: dark) {
-    background-color: hsl(var(--denim), 25%, 37%);
-    border-color: hsl(var(--denim), 12%, 50%);
-    color: hsl(var(--denim), 25%, 97.5%);
+    background-color: var(--denim-700);
+    border-color: var(--denim-600);
+    color: var(--denim-200);
   }
 }
 
-/*------------------*/
-/* HEADER */
-/*------------------*/
-
-header {
-  a {
-    background-color: hsl(var(--honey), 50%, 97.5%);
-    color: var(--black-out);
-    padding: 0.5rem;
-    border-radius: 0.25rem;
-    transition: var(--cheetah);
-    /* ? is this first load? */
-  }
-
-  a:hover {
-    background-color: hsl(35, 100%, 75%);
-  }
-
-  a:focus {
-    background-color: hsl(var(--honey), 100%, 2.5%);
-  }
-
-  .site-logo {
-    display: inline-block;
-    margin-block-end: 0.5rem;
-  }
+.hover-back--inline {
+  display: inline;
 }
 
 /*------------------*/
-/* LISTS */
+/* FOOTER */
 /*------------------*/
 
-ul li a {
-  padding: 0.5rem;
-  /* text-decoration: none; */
+.footer-copyright a svg {
+  border-radius: var(--border-radius);
+  border: 1px solid transparent; /*  hold the space itll come in later */
+  padding-block: var(--kosciuszko);
+  padding-inline: 0.5rem;
 }
 
-ul li a:where(:hover, :focus) {
-  background: yellow;
-  text-decoration: none;
+.footer-copyright a:hover svg,
+.footer-copyright a:focus svg {
+  border-color: var(--honey-400);
+
+  @media (prefers-color-scheme: dark) {
+    border-color: var(--denim-400);
+  }
+}
+
+.footer_list a {
+  margin-inline: auto;
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
+  max-width: max-content;
+  line-height: 1.6rem;
+  /*  TODO: move this to baseline */
 }
 
 /*------------------------------------*/
+/* #SVG */
+/*------------------------------------*/
 
-.areas-list {
-  a {
-    margin: 0; /* controlled by display */
+a svg {
+  transition: var(--moment);
+  fill: var(--honey-500);
+
+  @media (prefers-color-scheme: dark) {
+    fill: var(--denim-300);
   }
 }
+
+a svg:hover {
+  fill: var(--honey-500);
+
+  @media (prefers-color-scheme: dark) {
+    fill: var(--denim-300);
+  }
+}
+
+/*------------------------------------*/

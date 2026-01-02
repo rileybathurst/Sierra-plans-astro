@@ -1,8 +1,183 @@
-/*------------------*/
-/* CARD */
-/*------------------*/
+/*------------------------------------*/
+/* #CARDS */
+/*------------------------------------*/
+
+.deck,
+.service-deck {
+  display: grid;
+  column-gap: var(--vinson);
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(calc(var(--swan) - var(--vinson)), 1fr)
+  );
+}
+
+.service-deck {
+  grid-template-rows: 1fr min-content;
+}
 
 .deck {
+  row-gap: var(--kilimanjaro);
+}
+
+.card {
+  display: grid;
+  row-gap: var(--vinson);
+  grid-row: span 5;
+  grid-template-rows: subgrid; /* this is breaking when on the service page as theres title pushing the size */
+  /* TODO: I can wrap it in a not */
+
+  > * {
+    grid-column: 1;
+  }
+
+  .paper {
+    grid-row: 2/5;
+    background-color: var(--honey-100);
+    box-shadow: var(--mesosphere);
+    border: 2px solid var(--brilliance);
+    border-radius: var(--card-radius);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--denim-700);
+      border-color: var(--denim-600);
+    }
+  }
+
+  .image {
+    grid-row: 1/3;
+    border-radius: var(--card-radius);
+    width: calc(100% - var(--denali));
+    margin-inline: auto;
+    z-index: var(--understory);
+
+    @media (prefers-color-scheme: dark) {
+      border-color: var(--denim-700);
+    }
+
+    .gatsby-image-wrapper {
+      aspect-ratio: 3/2;
+      width: 100%;
+      border-radius: var(--card-radius);
+      box-shadow: var(--stratosphere);
+      border-radius: var(--card-radius);
+      transition: transform 0.5s ease;
+      border: 2px solid var(--brilliance);
+
+      @media (prefers-color-scheme: dark) {
+        border-color: var(--denim-600);
+      }
+    }
+
+    /*  safari needs this */
+    img {
+      border-radius: var(--card-radius);
+      transition: transform 0.5s ease;
+    }
+
+    /* TODO this breaks the border radius s  */
+    /* document which browsers support this s  */
+    img:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  > * {
+    padding-inline: var(--vinson);
+  }
+
+  h2 {
+    grid-row: 3;
+    font-size: clamp(var(--kilimanjaro), 1.5vw, var(--aconcagua));
+    line-height: clamp(var(--denali), 1.5vw, var(--everest));
+    margin-block-end: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+  }
+
+  p,
+  .subarea {
+    grid-row: 4;
+    margin-block-end: var(--kilimanjaro);
+  }
+}
+
+/*------------------*/
+/* SPECIFIC FIXES */
+/*------------------*/
+
+/* If this list gets long I will do something more e  */
+
+/* vendor r  */
+.card .marcella img {
+  object-position: 0 15%;
+}
+
+/* shananagins to wrangle the titles s  */
+/* TODO: some middle sizes are wrong g  */
+.service-deck {
+  margin-block-end: 0;
+  /* max-width instead of having a reset but maybe I should? */
+  @media (max-width: 40rem) {
+    .project-title {
+      grid-row: 1;
+    }
+
+    .project {
+      grid-row: 2;
+    }
+
+    .vendor-title {
+      grid-row: 3;
+    }
+
+    .vendor {
+      grid-row: 4;
+    }
+
+    .venue-title {
+      grid-row: 5;
+    }
+
+    .venue {
+      grid-row: 6;
+    }
+
+    .project-0 {
+      grid-row: 2;
+    }
+
+    .project-1 {
+      grid-row: 3;
+    }
+
+    .project-2 {
+      grid-row: 4;
+    }
+  }
+
+  /* stork */
+  @media (min-width: 40rem) {
+    .project-title {
+      grid-row: 1;
+    }
+
+    .service-card {
+      grid-row: 2;
+    }
+  }
+
+  /* TODO: theres a complicated has to get sorted on the social events s  */
+  /* https://www.matuzo.at/blog/2022/100daysof-day50/ /  */
+  /* .has not project then do other things s  */
+}
+
+/*------------------*/
+/* Sheet */
+/*------------------*/
+/* Used for plans */
+
+.stack {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   flex-flow: row wrap;
@@ -12,16 +187,15 @@
   margin-block-end: 3rem;
 }
 
-.card {
-  /* font-family: "josefin-sans", sans-serif; */
-  font-family: var(--sans-serif);
+.sheet {
+  font-family: var(--font-sans);
   background-color: hsl(var(--honey), 75%, 87%);
   border: 2px solid whitesmoke;
   border-radius: 0.5rem;
   padding: 1rem;
-  margin-block-end: var(--baseline);
+  margin-block-end: var(--vinson);
 
-  .card__jobs {
+  .sheet__jobs {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
@@ -38,58 +212,73 @@
 /* STACK */
 /*------------------*/
 
-.card__plan {
+.sheet__plan {
   display: grid;
-  grid-template-columns: 1.67fr 1fr;
+  grid-template-columns: 1fr 3fr;
   margin-block-end: 1.5rem;
   row-gap: 1.5rem;
-  box-shadow: var(--penumbra);
+  box-shadow: var(--mesosphere);
+
+  /* same as a button */
+  background-color: var(--honey-200);
+  border: 1px solid var(--honey-300);
 
   text-decoration: none; /* * clears links text */
 
-  > * {
+  /* > * {
     display: flex;
-    /* controls the supra */
+    controls the supra
     flex-direction: column-reverse;
-  }
+  } */
 
   .name {
     grid-row: 1;
-    grid-column: 1;
+    grid-column: 2;
   }
 
   .address {
     grid-row: 2;
-    grid-column: 1;
+    grid-column: 2;
   }
 
   .jobber {
-    grid-row: 1;
-    grid-column: 2;
+    grid-row: 1/3;
+    grid-column: 1;
+    display: grid;
+    place-items: center;
   }
 
-  .jobbertakedown {
-    grid-row: 2;
-    grid-column: 2;
-  }
-
-  .supra {
-    color: gray;
-    margin-block-end: 0.5rem;
-  }
-
+  h1,
   h3,
   h4 {
-    margin-block-end: 0;
+    margin: 0;
+    padding: 0;
   }
 }
 
+.sheet__plan:hover {
+  color: var(--honey-700);
+  box-shadow: var(--stratosphere);
+  background-color: var(--honey-300);
+  border-color: var(--honey-400);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--denim-500);
+    border-color: var(--denim-400);
+    color: var(--denim-100);
+  }
+}
+
+/* * plans have stack not in this folder but will be moved to story at some point */
 .stack:where(:hover, :focus) {
   background-color: white;
-  box-shadow: var(--antumbra);
+  box-shadow: var(--stratosphere);
 
   h3,
   h4 {
     font-weight: bold;
   }
 }
+
+/*------------------------------------*/
+ 

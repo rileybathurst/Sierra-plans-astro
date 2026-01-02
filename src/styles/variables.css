@@ -1,13 +1,46 @@
+/*------------------------------------*/
+/* VARIABLES */
+/*------------------------------------*/
+
 :root {
-  /*------------------------------------*/
-  /* #COLOR */
-  /*------------------------------------*/
-
+  /*------------------*/
+  /* COLOR */
+  /*------------------*/
   --honey: 35;
+  --denim: 215;
+  /*  also using whitesmoke */
 
-  --error: red;
+  --honey-700: hsl(var(--honey), 100%, 12.5%);
+  --honey-600: hsl(var(--honey), 100%, 25%);
+  --honey-500: hsl(var(--honey), 100%, 32%);
+  --honey-400: hsl(var(--honey), 100%, 50%);
+  --honey-300: hsl(var(--honey), 100%, 62.5%);
+  --honey-200: hsl(var(--honey), 100%, 75%);
+  --honey-100: hsl(var(--honey), 100%, 87.5%);
+  --honey-50: hsl(var(--honey), 100%, 97.5%);
 
-  /*------------------------------------*/
+  --denim-750: hsl(var(--denim), 100%, 7.5%);
+  --denim-700: hsl(var(--denim), 100%, 12.5%);
+  --denim-600: hsl(var(--denim), 100%, 25%);
+  --denim-500: hsl(var(--denim), 100%, 37.5%);
+  --denim-400: hsl(var(--denim), 75%, 50%);
+  --denim-300: hsl(var(--denim), 75%, 62.5%);
+  --denim-200: hsl(var(--denim), 75%, 75%);
+  --denim-100: hsl(var(--denim), 75%, 87.5%);
+
+  --pitch: 2.5%;
+  --dark: 12.5%;
+  --dull: 25%;
+  --dim: 37.5%;
+  --mid: 50%;
+  --glow: 62.5%;
+  --light: 75%;
+  --bright: 87.5%;
+  --brilliant: 97.5%;
+
+  /*------------------*/
+  /* NEUTRALS */
+  /*------------------*/
 
   --black-metal: hsl(0, 0%, 2.5%);
   --black-out: hsl(0, 0%, 12.5%);
@@ -19,51 +52,17 @@
   --kingly-cloud: hsl(0, 0%, 87.5%);
   --brilliance: hsl(0, 0%, 97.5%);
 
-  /*------------------------------------*/
-
-  --pitch: 2.5%;
-  --dark: 12.5%;
-  --dull: 25%;
-  --dim: 37.5%;
-  --mid: 50%;
-  --light: 75%;
-  --bright: 87.5%;
-  --brilliant: 97.5%;
-
   /*------------------*/
-  /* #SHADOWS */
+  /* TYPOGRAPHY */
   /*------------------*/
 
-  /* Umbra is direct light - dark - for active down clicks */
-  /* Antumbra is eclipsed - medium - for hover */
-  /* Penumbra is obscured - light - for layering but waiting */
+  --font-sans: "Josefin Sans Variable", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "mixta-didone", ui-serif, Georgia, Cambria, "Times New Roman",
+    serif;
+  --font-quote: "BIZ UDPMincho", serif;
 
-  --penumbra: 0 3px 6px hsla(0, 0%, 0%, 0.12), 0 2px 4px hsla(0, 0%, 0%, 0.1);
-  --antumbra: 0 14px 24px hsla(0, 0%, 0%, 0.16),
-    0 4px 12px hsla(0, 0%, 0%, 0.12);
-  --umbra: 0 5px 12px hsla(0, 0%, 0%, 0.4) /* Ambient light shadow */,
-    0 18px 32px hsla(0, 0%, 0%, 0.16) /* Direct light shadow */;
-
-  /*------------------------------------*/
-  /* #LAYOUT */
-  /*------------------------------------*/
-
-  --baseline: 1.5rem;
-
-  /*------------------*/
-  /*  #WIDTHS */
-  /* https://en.wikipedia.org/wiki/Largest_living_flying_birds_by_wingspan */
-  /*------------------*/
-  --swan: 20rem;
-  --vulture: 30rem;
-  --stork: 40rem;
-  --condor: 50rem;
-  --pelican: 60rem;
-  --albatross: 80rem;
-
-  /*------------------------------------*/
-  /* #TYPOGRAPHY */
-  /*------------------------------------*/
+  --line-height: 1.25rem;
 
   --everest: 3rem; /* 29,035ft Asia */
   --everest-lh: 3.75rem; /* 29,035ft Asia */
@@ -75,23 +74,81 @@
   --vinson: 1rem; /* 16,050ft Antartica */
   --kosciuszko: 0.75rem; /* 7,310ft Australia */
 
-  --heavyweight: 900;
-  --bridgerweight: 800;
-  --cruiserweight: 700;
-  --welterweight: 600;
-  --lightweight: 500;
-  --featherweight: 400;
-  --bantamweight: 300;
-  --flyweight: 200;
-  --atomweight: 100;
+  /*------------------*/
+  /* WIDTHS */
+  /*------------------*/
+  /*  https://en.wikipedia.org/wiki/Largest_living_flying_birds_by_wingspan */
+  /* TODO: sliding scale */
+  --swan: 20rem;
+  --vulture: 30rem;
+  --stork: 40rem;
+  --condor: 50rem;
+  --pelican: 60rem;
+  --albatross: 80rem;
 
-  --sans-serif: "Josefin Sans Variable", sans-serif;
+  /*------------------*/
+  /* TIMING */
+  /*------------------*/
+  --moment: 0.5s ease-in-out;
 
-  /*------------------------------------*/
-  /* #ANIMATION */
-  /* doesnt have its own page so its not perfect and I dont want birds as I use wingpsan */
-  /*------------------------------------*/
-  --cheetah: 0.2s ease-in-out;
-  /* --pronghorn: 0.2s ease-in-out; */
-  /* --Springbok: 0.2s ease-in-out; */
+  /*------------------*/
+  /* SHADOWS */
+  /*------------------*/
+  /*  based on the layers of the atomposhere */
+  /*  https://en.wikipedia.org/wiki/Atmosphere_of_Earth */
+
+  --mesosphere: 0 3px 6px hsla(35, 100%, 50%, 0.12),
+    0 2px 4px hsla(35, 100%, 50%, 0.1);
+  --stratosphere: 0 14px 24px hsla(35, 87%, 50%, 0.16),
+    0 4px 12px hsla(35, 87%, 50%, 0.12);
+  --troposphere: 0 5px 12px hsla(35, 50%, 50%, 0.4) /* Ambient light shadow */,
+    0 18px 32px hsla(35, 50%, 50%, 0.16) /* Direct light shadow */;
+
+  /*------------------*/
+  /* EXTRAS */
+  /*------------------*/
+  /*  TODO: needs a better metaphor */
+  --border-radius: 0.125rem;
+  --card-radius: 0.5rem;
+
+  /*------------------*/
+  /* Z INDEX LAYERS */
+  /*  https://en.wikipedia.org/wiki/Forest */
+  /*------------------*/
+
+  --floor: 0;
+  --understory: 1;
+  --canopy: 2;
+  --emergent: 3;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /*------------------*/
+    /* DARK SHADOWS */
+    /*------------------*/
+
+    /* Ambient light shadow */
+    /* Direct light shadow */
+
+    --mesosphere: 0 3px 6px hsla(215, 100%, 25%, 0.12),
+      0 2px 4px hsla(215, 100%, 50%, 0.1);
+
+    --stratosphere: 0 14px 24px hsla(215, 100%, 25%, 0.16),
+      0 4px 12px hsla(215, 87%, 50%, 0.12);
+
+    --troposphere: 0 5px 12px hsla(215, 100%, 12.5%, 0.4),
+      0 18px 32px hsla(215, 100%, 12.5%, 0.16);
+  }
+}
+
+/*  media queries cant use variables */
+/* $pad: 30rem;
+$book: 60rem;
+
+$swan: 20rem;
+$vulture: 30rem;
+$stork: 40rem;
+$condor: 50rem;
+$pelican: 60rem;
+$albatross: 80rem; */

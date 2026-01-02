@@ -30,13 +30,11 @@ plan.notes &&
 ---
 
 <Layout>
-  {
-    plan.notes ? (
-      <p class="everest error">There are Notes instead of Block Notes</p>
-    ) : null
-  }
+  <h1 class="jobber">
+    {plan.jobber ? plan.jobber : <span class="error">Missing Jobber</span>}
+  </h1>
 
-  <h1>{plan.name}</h1>
+  <h2>{plan.name}</h2>
 
   <address class="capitalize">
     <span class="kilimanjaro">{plan.address}</span><br />
@@ -46,53 +44,20 @@ plan.notes &&
 
   <hr />
 
-  <div class="deck">
-    <p class="plan-detail">
-      <span class="eyebrow">Jobber install</span>
-      <span class="supra"
-        >{
-          plan.jobber
-            ? plan.jobber
-            : '<span class="error">Missing Jobber</span>'
-        }</span
-      >
-    </p>
-    <p class="plan-detail">
-      <span class="eyebrow">Jobber takedown</span>
-      <span class="supra"
-        >{
-          plan.jobbertakedown
-            ? plan.jobbertakedown
-            : '<span class="error">Missing Jobber Takedown</span>'
-        }</span
-      >
-    </p>
-  </div>
-
-  <hr />
-
-  {
-    plan.timerHours ? (
-      <p class="plan-detail">
-        <span class="eyebrow">Timer</span>
-        <span class="supra">{plan.timerHours} Hours</span>
-      </p>
-    ) : null
-  }
-
-  {
-    plan.timerFallback ? (
-      <p class="plan-detail">
-        <span class="eyebrow">Timer</span>
-        <span class="supra">{plan.timerFallback}</span>
-      </p>
-    ) : null
-  }
+  <p>
+    {
+      plan.timerHours || plan.timerFallback ? (
+        `Timer ${plan.timerHours ? plan.timerHours + "hours" : plan.timerFallback}`
+      ) : (
+        <span class="error">Missing Timer Info</span>
+      )
+    }
+  </p>
 
   {
     plan.basicNotes ? (
       <>
-        <h2>Basic Notes</h2>
+        <h2>Notes</h2>
         <pre>{plan.basicNotes}</pre>
       </>
     ) : null
@@ -101,6 +66,7 @@ plan.notes &&
   {
     plan.notes ? (
       <>
+        <p class="error">There are Notes instead of Block Notes</p>
         <h2>Old Notes</h2>
         {plan.notes}
       </>
@@ -114,14 +80,10 @@ plan.notes &&
     client:load
   />
 
-  <div class="deck">
-    <p class="plan-detail">
-      <span class="eyebrow">Created at</span>
-      <span class="supra">{createdAtDate}</span>
-    </p>
-    <p class="plan-detail">
-      <span class="eyebrow">Updated at</span>
-      <span class="supra"> {updatedAtDate}</span>
-    </p>
-  </div>
+  <hr />
+
+  <p>Created at {createdAtDate}</p>
+  {updatedAtDate !== createdAtDate ?
+    <p>Updated at {updatedAtDate}</p>
+  : null}
 </Layout>

@@ -27,7 +27,8 @@ main {
   padding: 1rem;
 }
 
-img {
+img,
+.storybook-image {
   background-color: white;
   border-radius: 0.25rem;
   box-shadow: var(--penumbra);
