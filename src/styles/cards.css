@@ -58,7 +58,6 @@
     .gatsby-image-wrapper {
       aspect-ratio: 3/2;
       width: 100%;
-      border-radius: var(--card-radius);
       box-shadow: var(--stratosphere);
       border-radius: var(--card-radius);
       transition: transform 0.5s ease;
@@ -91,7 +90,7 @@
     font-size: clamp(var(--kilimanjaro), 1.5vw, var(--aconcagua));
     line-height: clamp(var(--denali), 1.5vw, var(--everest));
     margin-block-end: 0;
-    font-family: var(--font-sans);
+    /* font-family: var(--font-sans); */
     font-weight: 400;
   }
 
@@ -99,6 +98,10 @@
   .subarea {
     grid-row: 4;
     margin-block-end: var(--kilimanjaro);
+    color: var(--neutral-600);
+    @media (prefers-color-scheme: dark) {
+      color: var(--neutral-300);
+    }
   }
 }
 
@@ -175,7 +178,7 @@
 /*------------------*/
 /* Sheet */
 /*------------------*/
-/* Used for plans */
+/* Used for plans, but sheet is more generic */
 
 .stack {
   display: grid;
@@ -189,11 +192,19 @@
 
 .sheet {
   font-family: var(--font-sans);
-  background-color: hsl(var(--honey), 75%, 87%);
-  border: 2px solid whitesmoke;
   border-radius: 0.5rem;
   padding: 1rem;
   margin-block-end: var(--vinson);
+
+  /* same as a button */
+  background-color: var(--honey-200);
+  border: 1px solid var(--honey-300);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--denim-700);
+    border-color: var(--denim-600);
+    color: var(--denim-200);
+  }
 
   .sheet__jobs {
     display: grid;
@@ -218,11 +229,6 @@
   margin-block-end: 1.5rem;
   row-gap: 1.5rem;
   box-shadow: var(--mesosphere);
-
-  /* same as a button */
-  background-color: var(--honey-200);
-  border: 1px solid var(--honey-300);
-
   text-decoration: none; /* * clears links text */
 
   /* > * {
@@ -279,6 +285,3 @@
     font-weight: bold;
   }
 }
-
-/*------------------------------------*/
- 
