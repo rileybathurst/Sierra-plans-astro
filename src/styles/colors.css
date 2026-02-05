@@ -3,11 +3,13 @@
 /*------------------------------------*/
 
 body {
-  background-color: hsl(
-    var(--honey),
-    100%,
-    99%
-  ); /* from the sierra lighting site */
+  background: var(--honey-50);
+  color: var(--denim-700);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--denim-750);
+    color: var(--brilliance);
+  }
 }
 
 .error {

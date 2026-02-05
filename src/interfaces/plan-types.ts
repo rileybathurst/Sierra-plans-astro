@@ -4,7 +4,6 @@ type PlanTypes = {
   name: string;
   slug: string;
   jobber: number;
-  jobbertakedown: string;
   zip: number;
   timerHours: number;
   timerFallback: string;

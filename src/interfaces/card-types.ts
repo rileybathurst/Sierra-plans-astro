@@ -4,7 +4,6 @@ export type cardTypes = {
   name: string;
   address: string;
   jobber: string;
-  jobbertakedown: string;
   timerHours: number;
   timerFallback: string;
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Canvg } from 'canvg';
 import { jsPDF } from "jspdf";
 import type { PlanTypes } from "../interfaces/plan-types";
@@ -24,18 +24,15 @@ export default function ImageAndPDF({ plan, createdAtDate, updatedAtDate }: { pl
         1
       );
 
-      doc.setFontSize(9);
+      // doc.setFontSize(9);
 
       if (plan.jobber) {
-        doc.rect(6.75, 0.5, 1.25, 1.25);
+        doc.rect(6.75, 0.525, 1.25, 0.35);
         doc.text("Jobber", 6.85, 0.75);
-        doc.text(plan.jobber.toString(), 6.85, 1);
-
-        if (plan.jobbertakedown) {
-          doc.text("Jobber Takedown", 6.85, 1.25);
-          doc.text(plan.jobbertakedown.toString(), 6.85, 1.5);
-        }
+        doc.text(plan.jobber.toString(), 7.5, 0.75);
       }
+
+      doc.setFontSize(9);
 
       if (plan.timerHours) {
         doc.text(`Timer: ${plan.timerHours} Hours`, 0.5, 1.25);
@@ -87,8 +84,7 @@ export default function ImageAndPDF({ plan, createdAtDate, updatedAtDate }: { pl
       doc.addImage(logo, "png", 0.5, 9.7, 1, 0.51);
 
       doc.save(
-        `${plan.jobber}${plan.jobbertakedown ? `-${plan.jobbertakedown}` : ""
-        }-${plan.name}-${plan.slug}-${mostRecent}`
+        `${plan.jobber}-${plan.name}-${plan.slug}-${mostRecent}`
       ); // * turn off for developing
     };
 
