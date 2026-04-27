@@ -58,7 +58,7 @@ if (plan.relatedPlans) {
   <p>
     {
       plan.timerHours || plan.timerFallback ? (
-        `Timer ${plan.timerHours ? plan.timerHours + "hours" : plan.timerFallback}`
+        `Timer: ${plan.timerHours ? plan.timerHours + " hours" : plan.timerFallback}`
       ) : (
         <span class="error">Missing Timer Info</span>
       )
