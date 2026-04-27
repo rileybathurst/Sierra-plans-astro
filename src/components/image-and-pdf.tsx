@@ -3,7 +3,14 @@ import { Canvg } from 'canvg';
 import { jsPDF } from "jspdf";
 import type { PlanTypes } from "../interfaces/plan-types";
 
-export default function ImageAndPDF({ plan, createdAtDate, updatedAtDate }: { plan: PlanTypes; createdAtDate: string; updatedAtDate: string; }) {
+type ImageAndPDFTypes = {
+  plan: PlanTypes;
+  createdAtDate: string;
+  updatedAtDate: string;
+  showPlan?: boolean;
+};
+
+export default function ImageAndPDF({ plan, createdAtDate, updatedAtDate, showPlan }: ImageAndPDFTypes) {
 
   useEffect(() => {
     const generatePdf = async () => {
@@ -29,7 +36,7 @@ export default function ImageAndPDF({ plan, createdAtDate, updatedAtDate }: { pl
       if (plan.jobber) {
         doc.rect(6.75, 0.525, 1.25, 0.35);
         doc.text("Jobber", 6.85, 0.75);
-        doc.text(plan.jobber.toString(), 7.5, 0.75);
+        doc.text(plan.jobber.toString().slice(0, 4), 7.5, 0.75);
       }
 
       doc.setFontSize(9);
@@ -90,6 +97,8 @@ export default function ImageAndPDF({ plan, createdAtDate, updatedAtDate }: { pl
 
     generatePdf();
   }, [plan, createdAtDate, updatedAtDate]);
+
+  if (showPlan === false) return null;
 
   return (
     <>

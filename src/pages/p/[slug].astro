@@ -9,7 +9,7 @@ export async function getStaticPaths() {
     endpoint: "plans", // the content type to fetch
     wrappedByKey: "data", // the key to unwrap the response
     more: true,
-    fields: ["areas"],
+    fields: ["areas", "relatedPlans"],
   });
 
   return plans.map((plan) => ({
@@ -27,6 +27,17 @@ const updatedAtDate = plan.updatedAt
 
 plan.notes &&
   console.error("using the old plan notes, move them to basic notes");
+
+if (plan.relatedPlans) {
+  plan.relatedPlans.forEach((relatedPlan) => {
+    relatedPlan.createdAtDate = new Date(
+      relatedPlan.createdAt,
+    ).toLocaleDateString();
+    relatedPlan.updatedAtDate = relatedPlan.updatedAt
+      ? new Date(relatedPlan.updatedAt).toLocaleDateString()
+      : null;
+  });
+}
 ---
 
 <Layout>
@@ -77,13 +88,36 @@ plan.notes &&
     plan={plan}
     createdAtDate={createdAtDate}
     updatedAtDate={updatedAtDate ?? ""}
+    showPlan={true}
     client:load
   />
 
   <hr />
 
   <p>Created at {createdAtDate}</p>
-  {updatedAtDate !== createdAtDate ?
-    <p>Updated at {updatedAtDate}</p>
-  : null}
+  {updatedAtDate !== createdAtDate ? <p>Updated at {updatedAtDate}</p> : null}
+
+  <hr />
+
+  {
+    plan.relatedPlans && plan.relatedPlans.length > 0 ? (
+      <section>
+        <h2>Related Plans</h2>
+        <ul>
+          {plan.relatedPlans.map((relatedPlan) => (
+            <article>
+              <a href={`/p/${relatedPlan.slug}`}>{relatedPlan.name}</a>
+              <ImageAndPDF
+                plan={relatedPlan}
+                createdAtDate={relatedPlan.createdAtDate}
+                updatedAtDate={relatedPlan.updatedAtDate ?? ""}
+                showPlan={false}
+                client:load
+              />
+            </article>
+          ))}
+        </ul>
+      </section>
+    ) : null
+  }
 </Layout>
