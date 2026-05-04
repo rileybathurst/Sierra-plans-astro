@@ -45,7 +45,7 @@ export default async function fetchApi<T>({
     : "";
 
   // the questions mark is always needed but its fine to run it straight into an ampersand
-  // http://45.79.101.19:1340/api/plans?&pagination[pageSize]=100
+  // {import.meta.env.STRAPI_URL}/api/plans?&pagination[pageSize]=100
 
   // 100 is max page size
   const url = new URL(

@@ -12,16 +12,17 @@ export async function getStaticPaths() {
     fields: ["areas", "relatedPlans"],
   });
 
-  return plans.map((plan) => ({
-    params: { slug: plan.slug },
-    props: plan,
-  }));
+  return plans
+    .filter((plan) => plan.jobber != null) // Filter out plans with null/undefined jobber
+    .map((plan) => ({
+      params: { jobber: String(plan.jobber) }, // Convert number to string
+      props: plan,
+    }));
 }
 
 const plan = Astro.props;
 
 // TODO: testing
-// console.log(plan);
 console.log(plan.slug);
 console.log(plan.jobber);
 
