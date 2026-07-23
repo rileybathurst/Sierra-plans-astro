@@ -22,10 +22,6 @@ export async function getStaticPaths() {
 
 const plan = Astro.props;
 
-// TODO: testing
-console.log(plan.slug);
-console.log(plan.jobber);
-
 const createdAtDate = new Date(plan.createdAt).toLocaleDateString();
 const updatedAtDate = plan.updatedAt
   ? new Date(plan.updatedAt).toLocaleDateString()
